@@ -16,7 +16,7 @@
   --screen-black: #000;
   --screen-navy: #001a33;
   --screen-watch: #C9CFBF;
-  --stopwatch-bg: #d9d9d9;
+  --screen-gray: #d9d9d9;
   color-scheme: dark;
   font-family: "Microsoft JhengHei", "Noto Sans TC", system-ui, sans-serif;
   font-synthesis: none;
@@ -333,6 +333,10 @@ button:disabled {
   --clock-background: var(--screen-black);
   background: var(--clock-background);
   color: var(--clock-color);
+}
+
+.clock-screen[data-background="gray"] {
+  --clock-background: var(--screen-gray);
 }
 
 .clock-screen[data-background="navy"] {
@@ -678,7 +682,7 @@ button:disabled {
   --stopwatch-display-color: var(--phosphor-green);
   --stopwatch-background:
     linear-gradient(90deg, rgba(0, 0, 0, .035) 1px, transparent 1px),
-    linear-gradient(#d9d9d9, #c7c7c7);
+    linear-gradient(var(--screen-gray), #c7c7c7);
   --stopwatch-ui-color: #050505;
   --stopwatch-kicker-color: #333;
   --stopwatch-display-shadow: 0 3px 0 rgba(255, 255, 255, .42);
