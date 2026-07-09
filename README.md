@@ -55,9 +55,11 @@
 
 ```text
 Classroom-Timer-tzk/
-├── index.html
+├── .gitignore
 ├── .nojekyll
+├── LICENSE
 ├── README.md
+├── index.html
 ├── css/
 │   └── style.css
 └── js/
