@@ -56,7 +56,6 @@ Classroom-Timer-tzk/
 ├── index.html
 ├── .nojekyll
 ├── README.md
-├── skill.md
 ├── css/
 │   └── style.css
 └── js/
