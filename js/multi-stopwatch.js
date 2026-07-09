@@ -7,16 +7,20 @@
     "#ffffff", "#cc99ff", "#ffd700", "#40e0d0", "#ff69b4",
     "#98ff98", "#ff7f50", "#ffcc99", "#afeeee", "#dddddd"
   ];
+  const RENDER_INTERVAL = 50;
   const timers = Array.from({ length: 20 }, () => ({
     running: false,
     elapsed: 0,
     startTime: null,
     card: null,
     display: null,
-    status: null
+    status: null,
+    renderedValue: null,
+    renderedFont: null
   }));
   let screen;
   let active = false;
+  let lastRenderTime = -Infinity;
 
   function elapsedFor(timer, now) {
     return timer.running
@@ -24,15 +28,41 @@
       : timer.elapsed;
   }
 
-  function render(now) {
+  function renderTimer(timer, now, force) {
+    const value = TimerApp.formatDuration(elapsedFor(timer, now));
+    const font = screen.dataset.font;
+    if (!force && timer.renderedValue === value && timer.renderedFont === font) {
+      return;
+    }
+
+    if (font === "digital") {
+      TimerApp.renderSevenSegment(timer.display, value);
+    } else {
+      TimerApp.renderPlainText(timer.display, value);
+    }
+    timer.renderedValue = value;
+    timer.renderedFont = font;
+  }
+
+  function render(now, forceAll) {
+    if (!forceAll && now - lastRenderTime < RENDER_INTERVAL) {
+      return;
+    }
+    lastRenderTime = now;
+
     timers.forEach((timer) => {
-      const value = TimerApp.formatDuration(elapsedFor(timer, now));
-      if (screen.dataset.font === "digital") {
-        TimerApp.renderSevenSegment(timer.display, value);
-      } else {
-        TimerApp.renderPlainText(timer.display, value);
+      if (forceAll || timer.running) {
+        renderTimer(timer, now, forceAll);
       }
     });
+  }
+
+  function renderFrame(now) {
+    render(now, false);
+  }
+
+  function renderAll(now) {
+    render(now, true);
   }
 
   function syncTimer(timer) {
@@ -48,9 +78,9 @@
 
   function syncAnimation() {
     if (active && timers.some((timer) => timer.running)) {
-      TimerApp.animation.add(render);
+      TimerApp.animation.add(renderFrame);
     } else {
-      TimerApp.animation.remove(render);
+      TimerApp.animation.remove(renderFrame);
     }
   }
 
@@ -81,7 +111,7 @@
     } else {
       startTimer(timer, now);
     }
-    render(now);
+    renderTimer(timer, now, true);
     syncAnimation();
   }
 
@@ -94,7 +124,7 @@
   function stopAll() {
     const now = performance.now();
     timers.forEach((timer) => stopTimer(timer, now));
-    render(now);
+    renderAll(now);
     syncAnimation();
   }
 
@@ -105,7 +135,7 @@
       timer.startTime = null;
       syncTimer(timer);
     });
-    render(performance.now());
+    renderAll(performance.now());
     syncAnimation();
     TimerApp.announce("20 組碼表已全部歸零");
   }
@@ -120,7 +150,7 @@
     fontSelect.addEventListener("change", () => {
       screen.dataset.font = fontSelect.value;
       TimerApp.storage.set("multi-stopwatch-font", fontSelect.value);
-      render(performance.now());
+      renderAll(performance.now());
     });
 
     timers.forEach((timer, index) => {
@@ -145,7 +175,7 @@
       timer.display = card.querySelector(".multi-card__time");
       timer.status = card.querySelector(".multi-card__status");
     });
-    render(performance.now());
+    renderAll(performance.now());
 
     document.getElementById("multi-start-all").addEventListener("click", startAll);
     document.getElementById("multi-stop-all").addEventListener("click", stopAll);
@@ -154,7 +184,7 @@
     window.addEventListener("timerscreenchange", (event) => {
       active = event.detail.current === "multi-stopwatch";
       if (active) {
-        render(performance.now());
+        renderAll(performance.now());
       }
       syncAnimation();
     });

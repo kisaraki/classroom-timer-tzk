@@ -52,6 +52,13 @@
 
   function renderSevenSegment(element, value) {
     const text = String(value);
+    if (
+      element.dataset.displayValue === text &&
+      element.classList.contains("seven-segment-display")
+    ) {
+      return;
+    }
+
     const pattern = Array.from(text, (character) => /^\d$/.test(character) ? "d" : character).join("");
     let slots = element._sevenSegmentSlots;
 

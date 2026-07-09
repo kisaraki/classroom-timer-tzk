@@ -676,11 +676,43 @@ button:disabled {
 
 .stopwatch-screen {
   --stopwatch-display-color: var(--phosphor-green);
-  background:
+  --stopwatch-background:
     linear-gradient(90deg, rgba(0, 0, 0, .035) 1px, transparent 1px),
-    linear-gradient(var(--stopwatch-bg), #c7c7c7);
+    linear-gradient(#d9d9d9, #c7c7c7);
+  --stopwatch-ui-color: #050505;
+  --stopwatch-kicker-color: #333;
+  --stopwatch-display-shadow: 0 3px 0 rgba(255, 255, 255, .42);
+  background:
+    var(--stopwatch-background);
   background-size: 42px 100%;
-  color: #050505;
+  color: var(--stopwatch-ui-color);
+}
+
+.stopwatch-screen[data-background="black"] {
+  --stopwatch-background:
+    linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px),
+    linear-gradient(#000, #090909);
+  --stopwatch-ui-color: #f5f5f5;
+  --stopwatch-kicker-color: #b8c2cf;
+  --stopwatch-display-shadow: 0 0 12px color-mix(in srgb, var(--stopwatch-display-color) 35%, transparent);
+}
+
+.stopwatch-screen[data-background="navy"] {
+  --stopwatch-background:
+    linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px),
+    linear-gradient(var(--screen-navy), #000d1a);
+  --stopwatch-ui-color: #f5f5f5;
+  --stopwatch-kicker-color: #b8cfe4;
+  --stopwatch-display-shadow: 0 0 12px color-mix(in srgb, var(--stopwatch-display-color) 35%, transparent);
+}
+
+.stopwatch-screen[data-background="watch"] {
+  --stopwatch-background:
+    linear-gradient(90deg, rgba(0, 0, 0, .045) 1px, transparent 1px),
+    linear-gradient(var(--screen-watch), #b7beac);
+  --stopwatch-ui-color: #050505;
+  --stopwatch-kicker-color: #343a32;
+  --stopwatch-display-shadow: 0 2px 0 rgba(255, 255, 255, .35);
 }
 
 .stopwatch-screen[data-color="green"] { --stopwatch-display-color: var(--phosphor-green); }
@@ -713,7 +745,7 @@ button:disabled {
 }
 
 .single-timer-stage .timer-kicker {
-  color: #333;
+  color: var(--stopwatch-kicker-color);
 }
 
 .single-timer-display {
@@ -725,7 +757,7 @@ button:disabled {
   letter-spacing: -.09em;
   color: var(--stopwatch-display-color);
   text-align: center;
-  text-shadow: 0 3px 0 rgba(255, 255, 255, .42);
+  text-shadow: var(--stopwatch-display-shadow);
 }
 
 .stopwatch-screen[data-font="ming"] .single-timer-display {
@@ -820,6 +852,7 @@ button:disabled {
   background: color-mix(in srgb, var(--timer-color) 4%, #050505);
   color: var(--timer-color);
   text-align: left;
+  contain: layout paint;
 }
 
 .multi-card:hover,
@@ -859,6 +892,15 @@ button:disabled {
   letter-spacing: -.1em;
   text-align: center;
   text-shadow: 0 0 8px color-mix(in srgb, currentColor 35%, transparent);
+}
+
+.multi-screen .seven-segment {
+  filter: none;
+  transition: none;
+}
+
+.multi-screen .seven-separator i {
+  box-shadow: none;
 }
 
 .multi-screen[data-font="ming"] .multi-card__time {

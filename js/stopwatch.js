@@ -91,11 +91,14 @@
     const resetButton = document.getElementById("stopwatch-reset");
     const fontSelect = document.getElementById("stopwatch-font");
     const colorSelect = document.getElementById("stopwatch-color");
+    const backgroundSelect = document.getElementById("stopwatch-background");
 
     fontSelect.value = TimerApp.storage.get("stopwatch-font", "digital");
     colorSelect.value = TimerApp.storage.get("stopwatch-color", "green");
+    backgroundSelect.value = TimerApp.storage.get("stopwatch-background", "gray");
     screen.dataset.font = fontSelect.value;
     screen.dataset.color = colorSelect.value;
+    screen.dataset.background = backgroundSelect.value;
 
     fontSelect.addEventListener("change", () => {
       screen.dataset.font = fontSelect.value;
@@ -105,6 +108,10 @@
     colorSelect.addEventListener("change", () => {
       screen.dataset.color = colorSelect.value;
       TimerApp.storage.set("stopwatch-color", colorSelect.value);
+    });
+    backgroundSelect.addEventListener("change", () => {
+      screen.dataset.background = backgroundSelect.value;
+      TimerApp.storage.set("stopwatch-background", backgroundSelect.value);
     });
 
     startButton.addEventListener("click", start);
