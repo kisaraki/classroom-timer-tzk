@@ -1,0 +1,26 @@
+# Project-specific files that must not be published
+/skill.md
+/skill.backup-*.md
+/SKILL.md
+/SKILL.backup-*.md
+
+# Dependencies
+node_modules/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

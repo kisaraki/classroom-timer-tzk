@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <meta name="description" content="適合教室投影與觸控操作的時鐘、碼表與倒數計時器。">
+  <title>Classroom Timer tzk</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section id="menu-screen" class="screen menu-screen is-active" data-screen="menu" aria-labelledby="menu-title">
+      <div class="menu-content">
+        <p class="eyebrow">CLASSROOM TOOLKIT</p>
+        <h1 id="menu-title">Classroom<br><span>Timer tzk</span></h1>
+        <p class="menu-subtitle">為課堂節奏而設計的大畫面計時工具</p>
+        <nav class="menu-grid" aria-label="計時工具">
+          <button class="menu-card menu-card--clock" type="button" data-navigate="clock">
+            <span class="menu-card__number">01</span>
+            <span class="menu-card__icon" aria-hidden="true">◷</span>
+            <span class="menu-card__title">即時時鐘</span>
+            <span class="menu-card__hint">現在時間與指針鐘</span>
+          </button>
+          <button class="menu-card menu-card--stopwatch" type="button" data-navigate="stopwatch">
+            <span class="menu-card__number">02</span>
+            <span class="menu-card__icon" aria-hidden="true">⏱</span>
+            <span class="menu-card__title">大型碼表</span>
+            <span class="menu-card__hint">單一任務精準計時</span>
+          </button>
+          <button class="menu-card menu-card--multi" type="button" data-navigate="multi-stopwatch">
+            <span class="menu-card__number">03</span>
+            <span class="menu-card__icon" aria-hidden="true">▦</span>
+            <span class="menu-card__title">20 組碼表</span>
+            <span class="menu-card__hint">分組活動獨立計時</span>
+          </button>
+          <button class="menu-card menu-card--countdown" type="button" data-navigate="countdown">
+            <span class="menu-card__number">04</span>
+            <span class="menu-card__icon" aria-hidden="true">⌛</span>
+            <span class="menu-card__title">倒數計時</span>
+            <span class="menu-card__hint">測驗與任務限時</span>
+          </button>
+        </nav>
+        <p class="menu-footer">SPACE 開始／停止 · R 歸零 · H 首頁 · F 全螢幕</p>
+      </div>
+    </section>
+
+    <section id="clock-screen" class="screen clock-screen" data-screen="clock" aria-labelledby="clock-heading">
+      <h2 id="clock-heading" class="visually-hidden">即時時鐘</h2>
+      <div class="tool-toolbar">
+        <div class="toolbar-group">
+          <button class="toolbar-button" type="button" data-navigate="menu" aria-label="回到主選單">← 首頁</button>
+          <span class="toolbar-title">即時時鐘</span>
+        </div>
+        <div class="toolbar-group toolbar-settings">
+          <label class="compact-field">
+            <span>字型</span>
+            <select id="clock-font">
+              <option value="digital">電子錶</option>
+              <option value="ming">新細明體</option>
+              <option value="hei">黑體</option>
+              <option value="typewriter">打字機</option>
+            </select>
+          </label>
+          <label class="compact-field">
+            <span>文字</span>
+            <select id="clock-color">
+              <option value="green">螢光綠</option>
+              <option value="white">電腦白</option>
+              <option value="amber">琥珀色</option>
+              <option value="red">深紅色</option>
+              <option value="iron">鐵灰色</option>
+            </select>
+          </label>
+          <label class="compact-field">
+            <span>底色</span>
+            <select id="clock-background">
+              <option value="black">黑色</option>
+              <option value="navy">深藍色</option>
+              <option value="watch">電子錶</option>
+            </select>
+          </label>
+          <button id="clock-analog-toggle" class="toolbar-button" type="button" aria-pressed="true">隱藏指針鐘</button>
+          <button class="toolbar-button fullscreen-button" type="button">全螢幕</button>
+        </div>
+      </div>
+      <div id="clock-stage" class="clock-stage">
+        <div class="clock-watch-case">
+          <span class="watch-case__label" aria-hidden="true">CLASSROOM · DIGITAL TIMER</span>
+          <span class="watch-case__screw watch-case__screw--tl" aria-hidden="true"></span>
+          <span class="watch-case__screw watch-case__screw--tr" aria-hidden="true"></span>
+          <span class="watch-case__screw watch-case__screw--bl" aria-hidden="true"></span>
+          <span class="watch-case__screw watch-case__screw--br" aria-hidden="true"></span>
+          <div id="analog-clock" class="analog-clock" aria-hidden="true">
+            <span class="analog-clock__mark analog-clock__mark--12">12</span>
+            <span class="analog-clock__mark analog-clock__mark--3">3</span>
+            <span class="analog-clock__mark analog-clock__mark--6">6</span>
+            <span class="analog-clock__mark analog-clock__mark--9">9</span>
+            <span id="hour-hand" class="clock-hand clock-hand--hour"></span>
+            <span id="minute-hand" class="clock-hand clock-hand--minute"></span>
+            <span id="second-hand" class="clock-hand clock-hand--second"></span>
+            <span class="analog-clock__pin"></span>
+          </div>
+          <div class="clock-readout">
+            <time id="digital-clock" class="digital-clock" datetime="">00:00:00</time>
+            <p id="clock-date" class="clock-date">0000 年 00 月 00 日</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="stopwatch-screen" class="screen stopwatch-screen" data-screen="stopwatch" aria-labelledby="stopwatch-heading">
+      <h2 id="stopwatch-heading" class="visually-hidden">大型碼表</h2>
+      <div class="tool-toolbar toolbar--light">
+        <div class="toolbar-group">
+          <button class="toolbar-button" type="button" data-navigate="menu">← 首頁</button>
+          <span class="toolbar-title">大型碼表</span>
+        </div>
+        <div class="toolbar-group">
+          <label class="compact-field">
+            <span>字型</span>
+            <select id="stopwatch-font">
+              <option value="digital">電子錶</option>
+              <option value="ming">新細明體</option>
+              <option value="hei">黑體</option>
+              <option value="typewriter">打字機</option>
+            </select>
+          </label>
+          <label class="compact-field">
+            <span>文字</span>
+            <select id="stopwatch-color">
+              <option value="green">螢光綠</option>
+              <option value="white">電腦白</option>
+              <option value="amber">琥珀色</option>
+              <option value="red">深紅色</option>
+              <option value="iron">鐵灰色</option>
+            </select>
+          </label>
+          <button class="toolbar-button fullscreen-button" type="button">全螢幕</button>
+        </div>
+      </div>
+      <div class="single-timer-stage">
+        <p class="timer-kicker">ELAPSED TIME</p>
+        <time id="stopwatch-display" class="single-timer-display" datetime="PT0S">00:00:00.00</time>
+        <div class="timer-controls" aria-label="碼表控制">
+          <button id="stopwatch-start" class="control-button control-button--primary" type="button">開始</button>
+          <button id="stopwatch-stop" class="control-button" type="button" disabled>停止</button>
+          <button id="stopwatch-reset" class="control-button control-button--danger" type="button">歸零</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="multi-stopwatch-screen" class="screen multi-screen" data-screen="multi-stopwatch" aria-labelledby="multi-heading">
+      <h2 id="multi-heading" class="visually-hidden">20 組碼表</h2>
+      <div class="tool-toolbar tool-toolbar--multi">
+        <div class="toolbar-group">
+          <button class="toolbar-button" type="button" data-navigate="menu">← 首頁</button>
+          <span class="toolbar-title">20 組碼表</span>
+          <span class="multi-hint">點一下各組數字可以停止／繼續計時</span>
+        </div>
+        <div class="toolbar-group">
+          <button id="multi-start-all" class="toolbar-button toolbar-button--accent" type="button">全部開始</button>
+          <button id="multi-stop-all" class="toolbar-button" type="button">全部停止</button>
+          <button id="multi-reset-all" class="toolbar-button" type="button">全部歸零</button>
+          <label class="compact-field">
+            <span>字型</span>
+            <select id="multi-font">
+              <option value="digital">電子錶</option>
+              <option value="ming">新細明體</option>
+              <option value="hei">黑體</option>
+              <option value="typewriter">打字機</option>
+            </select>
+          </label>
+          <button class="toolbar-button fullscreen-button" type="button">全螢幕</button>
+        </div>
+      </div>
+      <div id="multi-grid" class="multi-grid" aria-label="20 組獨立碼表"></div>
+    </section>
+
+    <section id="countdown-screen" class="screen countdown-screen" data-screen="countdown" aria-labelledby="countdown-heading">
+      <h2 id="countdown-heading" class="visually-hidden">倒數計時器</h2>
+      <div class="tool-toolbar">
+        <div class="toolbar-group">
+          <button class="toolbar-button" type="button" data-navigate="menu">← 首頁</button>
+          <span class="toolbar-title">倒數計時</span>
+        </div>
+        <div class="toolbar-group">
+          <label class="compact-field compact-field--inline">
+            <span>最後</span>
+            <input id="warning-seconds" type="number" min="0" step="1" inputmode="numeric" value="10">
+            <span>秒提醒</span>
+          </label>
+          <label class="compact-field">
+            <span>字型</span>
+            <select id="countdown-font">
+              <option value="digital">電子錶</option>
+              <option value="ming">新細明體</option>
+              <option value="hei">黑體</option>
+              <option value="typewriter">打字機</option>
+            </select>
+          </label>
+          <label class="compact-field">
+            <span>文字</span>
+            <select id="countdown-color">
+              <option value="green">螢光綠</option>
+              <option value="white">電腦白</option>
+              <option value="amber">琥珀色</option>
+              <option value="red">深紅色</option>
+              <option value="iron">鐵灰色</option>
+            </select>
+          </label>
+          <label class="sound-toggle">
+            <input id="countdown-sound" type="checkbox">
+            <span>提示音</span>
+          </label>
+          <button id="countdown-mode-toggle" class="toolbar-button" type="button" aria-pressed="true">模式：沙漏動畫</button>
+          <button class="toolbar-button fullscreen-button" type="button">全螢幕</button>
+        </div>
+      </div>
+      <div id="countdown-stage" class="countdown-stage">
+        <p id="countdown-status" class="timer-kicker">滑動或滾動數字來設定時間</p>
+        <div id="countdown-hourglass" class="hourglass" aria-hidden="true">
+          <span class="hourglass__cap hourglass__cap--top"></span>
+          <span class="hourglass__glass">
+            <span class="hourglass__sand hourglass__sand--top"></span>
+            <span class="hourglass__stream"></span>
+            <span class="hourglass__sand hourglass__sand--bottom"></span>
+          </span>
+          <span class="hourglass__cap hourglass__cap--bottom"></span>
+        </div>
+        <div id="countdown-display" class="countdown-display" role="timer" aria-live="off" aria-label="倒數時間 00 小時 00 分 00 秒">
+          <span id="countdown-progress-line" class="countdown-progress-line" aria-hidden="true"></span>
+          <div class="countdown-field" data-field="hours">
+            <button class="countdown-step" type="button" data-countdown-step="1" data-unit="hours" aria-label="增加一小時">▲</button>
+            <button class="countdown-segment is-selected" type="button" data-unit="hours" aria-label="小時">00</button>
+            <button class="countdown-step" type="button" data-countdown-step="-1" data-unit="hours" aria-label="減少一小時">▼</button>
+          </div>
+          <span class="countdown-separator" aria-hidden="true">:</span>
+          <div class="countdown-field" data-field="minutes">
+            <button class="countdown-step" type="button" data-countdown-step="1" data-unit="minutes" aria-label="增加一分鐘">▲</button>
+            <button class="countdown-segment" type="button" data-unit="minutes" aria-label="分鐘">00</button>
+            <button class="countdown-step" type="button" data-countdown-step="-1" data-unit="minutes" aria-label="減少一分鐘">▼</button>
+          </div>
+          <span class="countdown-separator" aria-hidden="true">:</span>
+          <div class="countdown-field" data-field="seconds">
+            <button class="countdown-step" type="button" data-countdown-step="1" data-unit="seconds" aria-label="增加一秒">▲</button>
+            <button class="countdown-segment" type="button" data-unit="seconds" aria-label="秒">00</button>
+            <button class="countdown-step" type="button" data-countdown-step="-1" data-unit="seconds" aria-label="減少一秒">▼</button>
+          </div>
+          <span class="countdown-separator countdown-dot" aria-hidden="true">.</span>
+          <div class="countdown-field" data-field="centiseconds">
+            <button class="countdown-step" type="button" data-countdown-step="1" data-unit="centiseconds" aria-label="增加一百分秒">▲</button>
+            <button class="countdown-segment countdown-segment--fraction" type="button" data-unit="centiseconds" aria-label="百分秒">00</button>
+            <button class="countdown-step" type="button" data-countdown-step="-1" data-unit="centiseconds" aria-label="減少一百分秒">▼</button>
+          </div>
+        </div>
+        <div id="countdown-quick-controls" class="quick-controls" aria-label="快速調整時間">
+          <button type="button" data-adjust="-300000">−5 分</button>
+          <button type="button" data-adjust="-60000">−1 分</button>
+          <button type="button" data-adjust="-10000">−10 秒</button>
+          <button type="button" data-adjust="-5000">−5 秒</button>
+          <button type="button" data-adjust="5000">+5 秒</button>
+          <button type="button" data-adjust="10000">+10 秒</button>
+          <button type="button" data-adjust="30000">+30 秒</button>
+          <button type="button" data-adjust="60000">+1 分</button>
+          <button type="button" data-adjust="300000">+5 分</button>
+        </div>
+        <div class="timer-controls timer-controls--dark" aria-label="倒數控制">
+          <button id="countdown-start" class="control-button control-button--amber" type="button">開始</button>
+          <button id="countdown-stop" class="control-button" type="button" disabled>停止</button>
+          <button id="countdown-reset" class="control-button control-button--danger" type="button">歸零</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="live-message" class="visually-hidden" role="status" aria-live="polite"></div>
+
+  <script src="js/app.js" defer></script>
+  <script src="js/clock.js" defer></script>
+  <script src="js/stopwatch.js" defer></script>
+  <script src="js/multi-stopwatch.js" defer></script>
+  <script src="js/countdown.js" defer></script>
+</body>
+</html>
