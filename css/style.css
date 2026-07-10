@@ -119,6 +119,15 @@ button:disabled {
   padding: 48px 0 36px;
 }
 
+.menu-brand {
+  position: absolute;
+  z-index: 2;
+  top: max(16px, env(safe-area-inset-top));
+  left: max(20px, calc((100vw - 1180px) / 2));
+  display: grid;
+  gap: 4px;
+}
+
 .eyebrow,
 .timer-kicker {
   margin: 0 0 12px;
@@ -127,6 +136,21 @@ button:disabled {
   font-weight: 800;
   letter-spacing: .28em;
   text-transform: uppercase;
+}
+
+.menu-brand .eyebrow {
+  margin: 0;
+}
+
+.menu-brand__tagline {
+  margin: 0;
+  color: #E6CEA7;
+  font-size: clamp(.62rem, .9vw, .78rem);
+  font-weight: 800;
+  letter-spacing: .3em;
+  text-shadow:
+    0 0 6px rgba(230, 206, 167, .72),
+    0 0 16px rgba(230, 206, 167, .36);
 }
 
 .menu-content h1 {
@@ -1281,6 +1305,10 @@ button:disabled {
 }
 
 @media (max-width: 620px) {
+  .menu-brand {
+    left: 12px;
+  }
+
   .menu-content {
     width: min(100% - 24px, 500px);
     padding-block: 25px;
