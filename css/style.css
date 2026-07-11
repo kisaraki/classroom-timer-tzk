@@ -1,11 +1,29 @@
 :root {
-  --ink: #07111f;
+  --kosmos-ink-950: #06101e;
+  --kosmos-ink-900: #091829;
+  --kosmos-ink-850: #0d2035;
+  --kosmos-ink-800: #122942;
+  --kosmos-panel: rgba(255, 255, 255, .055);
+  --kosmos-panel-strong: rgba(255, 255, 255, .09);
+  --kosmos-line: rgba(255, 255, 255, .13);
+  --kosmos-line-soft: rgba(255, 255, 255, .07);
+  --kosmos-text: #f7fafc;
+  --kosmos-muted: #98a8ba;
+  --kosmos-cyan: #39d6f5;
+  --kosmos-lime: #b9ec46;
+  --kosmos-magenta: #f05bb5;
+  --kosmos-amber: #ffc75a;
+  --kosmos-danger: #ff6b7a;
+  --kosmos-success: #62e6a6;
+  --kosmos-font-sans: "Microsoft JhengHei", "Noto Sans TC", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --kosmos-font-mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  --ink: var(--kosmos-ink-950);
   --muted: #718096;
   --panel: #f5f1e8;
-  --lime: #c8ff47;
-  --cyan: #47d7ff;
+  --lime: var(--kosmos-lime);
+  --cyan: var(--kosmos-cyan);
   --amber: #E6CEA7;
-  --danger: #ff6258;
+  --danger: var(--kosmos-danger);
   --phosphor-green: #39ff14;
   --phosphor-white: #f5f5f5;
   --phosphor-amber: #E6CEA7;
@@ -18,7 +36,7 @@
   --screen-watch: #C9CFBF;
   --screen-gray: #d9d9d9;
   color-scheme: dark;
-  font-family: "Microsoft JhengHei", "Noto Sans TC", system-ui, sans-serif;
+  font-family: var(--kosmos-font-sans);
   font-synthesis: none;
 }
 
@@ -35,8 +53,8 @@ body {
 }
 
 body {
-  background: var(--ink);
-  color: #fff;
+  background: var(--kosmos-ink-950);
+  color: var(--kosmos-text);
 }
 
 button,
@@ -99,33 +117,96 @@ button:disabled {
 
 .menu-screen {
   background:
-    radial-gradient(circle at 88% 6%, rgba(71, 215, 255, .17), transparent 28%),
-    linear-gradient(125deg, #07111f 0 56%, #0c1d32 56% 100%);
+    radial-gradient(circle at 88% 6%, rgba(57, 214, 245, .22), transparent 28%),
+    radial-gradient(circle at 12% 85%, rgba(185, 236, 70, .12), transparent 32%),
+    linear-gradient(125deg, var(--kosmos-ink-950) 0 54%, var(--kosmos-ink-900) 54% 100%);
 }
 
 .menu-screen::before {
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(rgba(255, 255, 255, .03) 1px, transparent 1px);
-  background-size: 100% 32px;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57, 214, 245, .035) 1px, transparent 1px);
+  background-size: 100% 32px, 32px 100%;
   content: "";
   pointer-events: none;
 }
 
-.menu-content {
-  position: relative;
-  width: min(1180px, calc(100% - 40px));
-  margin: auto;
-  padding: 48px 0 36px;
+.menu-screen::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(110deg, transparent 0 64%, rgba(57, 214, 245, .08) 64% 64.3%, transparent 64.3%),
+    linear-gradient(110deg, transparent 0 69%, rgba(255, 199, 90, .08) 69% 69.25%, transparent 69.25%);
+  content: "";
+  pointer-events: none;
 }
 
-.menu-brand {
-  position: absolute;
+.kosmos-home-header {
+  position: relative;
   z-index: 2;
-  top: max(16px, env(safe-area-inset-top));
-  left: max(20px, calc((100vw - 1180px) / 2));
+  display: flex;
+  width: min(1180px, calc(100% - 3rem));
+  margin-inline: auto;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: max(1.25rem, env(safe-area-inset-top)) 1rem;
+}
+
+.kosmos-home-brand {
   display: grid;
-  gap: 4px;
+  flex: 0 0 auto;
+  justify-self: start;
+  justify-items: start;
+  gap: .32rem;
+}
+
+.kosmos-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  color: var(--kosmos-muted);
+  font-family: var(--kosmos-font-mono);
+  font-size: .72rem;
+  font-weight: 400;
+  letter-spacing: .18em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.kosmos-brand-mark::before {
+  display: block;
+  flex: 0 0 .6rem;
+  width: .6rem;
+  height: .6rem;
+  border: 2px solid var(--kosmos-cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(57, 214, 245, .12);
+  content: "";
+}
+
+.kosmos-brand-tagline {
+  margin: 0 0 0 1.3rem;
+  color: var(--kosmos-amber);
+  font-family: var(--kosmos-font-sans);
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .26em;
+  line-height: 1;
+  text-shadow:
+    0 0 5px rgba(255, 199, 90, .78),
+    0 0 14px rgba(255, 199, 90, .46);
+  white-space: nowrap;
+}
+
+.menu-content {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, calc(100% - 40px));
+  margin: auto;
+  padding: 16px 0 36px;
 }
 
 .eyebrow,
@@ -138,28 +219,13 @@ button:disabled {
   text-transform: uppercase;
 }
 
-.menu-brand .eyebrow {
-  margin: 0;
-}
-
-.menu-brand__tagline {
-  margin: 0;
-  color: #E6CEA7;
-  font-size: clamp(.62rem, .9vw, .78rem);
-  font-weight: 800;
-  letter-spacing: .3em;
-  text-shadow:
-    0 0 6px rgba(230, 206, 167, .72),
-    0 0 16px rgba(230, 206, 167, .36);
-}
-
 .menu-content h1 {
   max-width: 760px;
   margin: 0;
   font-size: clamp(3.6rem, 8vw, 7.5rem);
   font-weight: 900;
   line-height: .8;
-  letter-spacing: -.075em;
+  letter-spacing: 0;
 }
 
 .menu-content h1 span {
@@ -184,18 +250,25 @@ button:disabled {
   min-height: 220px;
   padding: 22px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, .13);
+  border: 1px solid var(--kosmos-line);
   border-radius: 10px;
-  background: rgba(255, 255, 255, .055);
-  color: #fff;
+  background: var(--kosmos-panel);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .08),
+    0 14px 34px rgba(0, 0, 0, .16);
+  color: var(--kosmos-text);
   text-align: left;
-  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
 }
 
 .menu-card:hover {
   z-index: 1;
   border-color: var(--card-color);
-  background: rgba(255, 255, 255, .1);
+  background: var(--kosmos-panel-strong);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .12),
+    0 0 18px rgba(57, 214, 245, .18),
+    0 18px 42px rgba(0, 0, 0, .24);
   transform: translateY(-5px);
 }
 
@@ -213,15 +286,54 @@ button:disabled {
 
 .menu-card--clock { --card-color: var(--cyan); }
 .menu-card--stopwatch { --card-color: var(--lime); }
-.menu-card--multi { --card-color: #ff70d0; }
-.menu-card--countdown { --card-color: var(--amber); }
+.menu-card--multi { --card-color: var(--kosmos-magenta); }
+.menu-card--countdown { --card-color: var(--kosmos-amber); }
 
 .menu-card__number {
   color: var(--card-color);
-  font-family: "Courier New", monospace;
+  font-family: var(--kosmos-font-mono);
   font-size: .75rem;
   font-weight: 700;
   letter-spacing: .16em;
+}
+
+.status-label {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  padding: 4px 9px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-family: var(--kosmos-font-mono);
+  font-size: .64rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  line-height: 1;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.status-label--stable {
+  background: rgba(98, 230, 166, .11);
+  color: var(--kosmos-success);
+  box-shadow: 0 0 14px rgba(98, 230, 166, .24);
+}
+
+.status-label--beta {
+  background: rgba(255, 199, 90, .12);
+  color: var(--kosmos-amber);
+  box-shadow: 0 0 14px rgba(255, 199, 90, .22);
+}
+
+.status-label--soon {
+  background: rgba(152, 168, 186, .1);
+  color: var(--kosmos-muted);
+  box-shadow: 0 0 10px rgba(152, 168, 186, .14);
 }
 
 .menu-card__icon {
@@ -248,7 +360,7 @@ button:disabled {
 .menu-footer {
   margin: 24px 0 0;
   color: #718096;
-  font-family: "Courier New", monospace;
+  font-family: var(--kosmos-font-mono);
   font-size: .75rem;
   letter-spacing: .05em;
 }
@@ -1305,8 +1417,19 @@ button:disabled {
 }
 
 @media (max-width: 620px) {
-  .menu-brand {
-    left: 12px;
+  .kosmos-home-header {
+    width: min(1180px, calc(100% - 2rem));
+    padding-top: 1.25rem;
+  }
+
+  .kosmos-brand-mark {
+    gap: .55rem;
+    font-size: .68rem;
+  }
+
+  .kosmos-brand-tagline {
+    margin-left: 1.15rem;
+    font-size: .58rem;
   }
 
   .menu-content {
@@ -1323,6 +1446,7 @@ button:disabled {
   }
 
   .menu-grid {
+    grid-template-columns: 1fr;
     gap: 9px;
   }
 

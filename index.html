@@ -3,43 +3,49 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#07111f">
+  <meta name="theme-color" content="#06101e">
   <meta name="description" content="適合教室投影與觸控操作的時鐘、碼表與倒數計時器。">
-  <meta name="build-version" content="2026-07-10.1">
+  <meta name="build-version" content="2026-07-11.1">
   <title>Classroom Timer tzk</title>
-  <link rel="stylesheet" href="css/style.css?v=2026-07-10.1">
+  <link rel="stylesheet" href="css/style.css?v=2026-07-11.1">
 </head>
 <body>
   <main class="app-shell">
     <section id="menu-screen" class="screen menu-screen is-active" data-screen="menu" aria-labelledby="menu-title">
-      <div class="menu-brand" aria-label="KOSMOS TOOLKIT 探真拓知酷">
-        <p class="eyebrow">KOSMOS TOOLKIT</p>
-        <p class="menu-brand__tagline">探真拓知酷</p>
-      </div>
+      <header class="kosmos-home-header">
+        <div class="kosmos-home-brand">
+          <span class="kosmos-brand-mark" lang="en">KOSMOS TOOLKIT</span>
+          <span class="kosmos-brand-tagline" lang="zh-Hant">探真拓知酷</span>
+        </div>
+      </header>
       <div class="menu-content">
         <h1 id="menu-title">Classroom<br><span>Timer tzk</span></h1>
         <p class="menu-subtitle">為課堂節奏而設計的大畫面計時工具</p>
         <nav class="menu-grid" aria-label="計時工具">
           <button class="menu-card menu-card--clock" type="button" data-navigate="clock">
             <span class="menu-card__number">01</span>
+            <span class="status-label status-label--stable" aria-label="發布狀態 STABLE">STABLE</span>
             <span class="menu-card__icon" aria-hidden="true">◷</span>
             <span class="menu-card__title">即時時鐘</span>
             <span class="menu-card__hint">現在時間與指針鐘</span>
           </button>
           <button class="menu-card menu-card--stopwatch" type="button" data-navigate="stopwatch">
             <span class="menu-card__number">02</span>
+            <span class="status-label status-label--stable" aria-label="發布狀態 STABLE">STABLE</span>
             <span class="menu-card__icon" aria-hidden="true">⏱</span>
             <span class="menu-card__title">大型碼表</span>
             <span class="menu-card__hint">單一任務精準計時</span>
           </button>
           <button class="menu-card menu-card--multi" type="button" data-navigate="multi-stopwatch">
             <span class="menu-card__number">03</span>
+            <span class="status-label status-label--stable" aria-label="發布狀態 STABLE">STABLE</span>
             <span class="menu-card__icon" aria-hidden="true">▦</span>
             <span class="menu-card__title">20 組碼表</span>
             <span class="menu-card__hint">分組活動獨立計時</span>
           </button>
           <button class="menu-card menu-card--countdown" type="button" data-navigate="countdown">
             <span class="menu-card__number">04</span>
+            <span class="status-label status-label--stable" aria-label="發布狀態 STABLE">STABLE</span>
             <span class="menu-card__icon" aria-hidden="true">⌛</span>
             <span class="menu-card__title">倒數計時</span>
             <span class="menu-card__hint">測驗與任務限時</span>
@@ -290,10 +296,10 @@
 
   <div id="live-message" class="visually-hidden" role="status" aria-live="polite"></div>
 
-  <script src="js/app.js?v=2026-07-10.1" defer></script>
-  <script src="js/clock.js?v=2026-07-10.1" defer></script>
-  <script src="js/stopwatch.js?v=2026-07-10.1" defer></script>
-  <script src="js/multi-stopwatch.js?v=2026-07-10.1" defer></script>
-  <script src="js/countdown.js?v=2026-07-10.1" defer></script>
+  <script src="js/app.js?v=2026-07-11.1" defer></script>
+  <script src="js/clock.js?v=2026-07-11.1" defer></script>
+  <script src="js/stopwatch.js?v=2026-07-11.1" defer></script>
+  <script src="js/multi-stopwatch.js?v=2026-07-11.1" defer></script>
+  <script src="js/countdown.js?v=2026-07-11.1" defer></script>
 </body>
 </html>
