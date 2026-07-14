@@ -1,6 +1,14 @@
 (function () {
   "use strict";
 
+  const ROUTE_PARAMETER = "tool";
+  const SCREEN_CONFIG = Object.freeze({
+    menu: { title: "Classroom Timer tzk" },
+    clock: { title: "即時時鐘 | Classroom Timer tzk" },
+    stopwatch: { title: "大型碼表 | Classroom Timer tzk" },
+    "multi-stopwatch": { title: "20 組碼表 | Classroom Timer tzk" },
+    countdown: { title: "倒數計時器 | Classroom Timer tzk" }
+  });
   const screens = new Map();
   const frameCallbacks = new Set();
   let activeScreen = "menu";
@@ -180,10 +188,67 @@
     }, 5000);
   }
 
-  function navigate(screenName) {
-    const nextScreen = screens.get(screenName);
-    if (!nextScreen || screenName === activeScreen) {
+  function isKnownScreen(screenName) {
+    return Object.prototype.hasOwnProperty.call(SCREEN_CONFIG, screenName);
+  }
+
+  function screenFromLocation() {
+    const url = new URL(window.location.href);
+    const queryScreen = url.searchParams.get(ROUTE_PARAMETER);
+    if (isKnownScreen(queryScreen)) {
+      return queryScreen;
+    }
+
+    let hashScreen = "";
+    try {
+      hashScreen = decodeURIComponent(url.hash.replace(/^#/, ""));
+    } catch (error) {
+      hashScreen = "";
+    }
+    return isKnownScreen(hashScreen) ? hashScreen : "menu";
+  }
+
+  function urlForScreen(screenName) {
+    const url = new URL(window.location.href);
+    if (screenName === "menu") {
+      url.searchParams.delete(ROUTE_PARAMETER);
+    } else {
+      url.searchParams.set(ROUTE_PARAMETER, screenName);
+    }
+    url.hash = "";
+    return url;
+  }
+
+  function updateAddress(screenName, historyMode) {
+    if (historyMode === "none") {
       return;
+    }
+
+    const method = historyMode === "replace" ? "replaceState" : "pushState";
+    try {
+      window.history[method]({ screen: screenName }, "", urlForScreen(screenName).href);
+    } catch (error) {
+      // Some browsers restrict History API updates for local file URLs.
+      // Navigation still works; only the visible address may remain unchanged.
+    }
+  }
+
+  function updateDocumentTitle(screenName) {
+    document.title = SCREEN_CONFIG[screenName].title;
+  }
+
+  function navigate(screenName, options = {}) {
+    const nextScreen = screens.get(screenName);
+    if (!nextScreen) {
+      return false;
+    }
+
+    const historyMode = options.historyMode || "push";
+    const shouldFocus = options.focus !== false;
+    if (screenName === activeScreen) {
+      updateAddress(screenName, historyMode);
+      updateDocumentTitle(screenName);
+      return true;
     }
 
     const previousScreen = activeScreen;
@@ -198,6 +263,8 @@
 
     activeScreen = screenName;
     document.body.dataset.screen = screenName;
+    updateAddress(screenName, historyMode);
+    updateDocumentTitle(screenName);
     window.clearTimeout(toolbarTimer);
     resetToolbarFade();
     window.dispatchEvent(new CustomEvent("timerscreenchange", {
@@ -205,10 +272,11 @@
     }));
 
     const heading = nextScreen.querySelector("h1, h2");
-    if (heading) {
+    if (heading && shouldFocus) {
       heading.setAttribute("tabindex", "-1");
       heading.focus({ preventScroll: true });
     }
+    return true;
   }
 
   function isTypingTarget(target) {
@@ -249,8 +317,22 @@
       screen.setAttribute("aria-hidden", String(!screen.classList.contains("is-active")));
     });
 
-    document.querySelectorAll("[data-navigate]").forEach((button) => {
-      button.addEventListener("click", () => navigate(button.dataset.navigate));
+    document.querySelectorAll("[data-navigate]").forEach((control) => {
+      control.addEventListener("click", (event) => {
+        const isModifiedLinkClick = control instanceof HTMLAnchorElement && (
+          event.button !== 0 ||
+          event.metaKey ||
+          event.ctrlKey ||
+          event.shiftKey ||
+          event.altKey ||
+          control.target === "_blank"
+        );
+        if (isModifiedLinkClick) {
+          return;
+        }
+        event.preventDefault();
+        navigate(control.dataset.navigate);
+      });
     });
     document.querySelectorAll(".fullscreen-button").forEach((button) => {
       button.addEventListener("click", toggleFullscreen);
@@ -258,10 +340,27 @@
 
     document.addEventListener("fullscreenchange", updateFullscreenLabels);
     document.addEventListener("keydown", handleKeyboard);
+    window.addEventListener("popstate", () => {
+      navigate(screenFromLocation(), { historyMode: "none", focus: false });
+    });
+    window.addEventListener("hashchange", () => {
+      navigate(screenFromLocation(), { historyMode: "replace", focus: false });
+    });
     ["pointermove", "pointerdown", "touchstart"].forEach((eventName) => {
       document.addEventListener(eventName, resetToolbarFade, { passive: true });
     });
     document.addEventListener("focusin", resetToolbarFade);
+
+    document.body.dataset.screen = activeScreen;
+    updateDocumentTitle(activeScreen);
+    window.setTimeout(() => {
+      const initialScreen = screenFromLocation();
+      if (initialScreen === activeScreen) {
+        updateAddress(initialScreen, "replace");
+      } else {
+        navigate(initialScreen, { historyMode: "replace", focus: false });
+      }
+    }, 0);
   }
 
   window.TimerApp = {
@@ -273,6 +372,9 @@
     navigate,
     announce,
     toggleFullscreen,
+    getScreenUrl: (screenName) => isKnownScreen(screenName)
+      ? urlForScreen(screenName).href
+      : null,
     getActiveScreen: () => activeScreen
   };
 

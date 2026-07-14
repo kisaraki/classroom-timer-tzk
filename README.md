@@ -27,6 +27,18 @@
 
 直接開啟根目錄的 `index.html`，或將整個專案放在任一靜態網站服務中。專案不需要建置流程，也不依賴 `node_modules`。
 
+總頁入口與四個功能都有可直接開啟及分享的網址：
+
+| 入口 | 網址 |
+| --- | --- |
+| 總頁 | https://kisaraki.github.io/classroom-timer-tzk/ |
+| 即時時鐘 | https://kisaraki.github.io/classroom-timer-tzk/?tool=clock |
+| 大型碼表 | https://kisaraki.github.io/classroom-timer-tzk/?tool=stopwatch |
+| 20 組碼表 | https://kisaraki.github.io/classroom-timer-tzk/?tool=multi-stopwatch |
+| 倒數計時器 | https://kisaraki.github.io/classroom-timer-tzk/?tool=countdown |
+
+首頁卡片與各功能的「首頁」連結會同步更新網址；瀏覽器上一頁與下一頁也能在總頁及功能之間切換。`?tool=` 路由不需要伺服器重新導向，因此可直接用於 GitHub Pages，並保留單一 `index.html` 的維護架構。
+
 倒數時間停止時可用下列方式設定：
 
 - 將滑鼠移到時、分、秒或百分秒欄位上滾動滾輪。
@@ -58,7 +70,7 @@
 4. 選擇要發布的分支（通常是 `main`）以及根目錄 `/ (root)`。
 5. 儲存後等待 GitHub Pages 完成部署。
 
-入口為根目錄的 `index.html`。CSS 與 JavaScript 均使用相對路徑，且專案包含 `.nojekyll`。
+總頁入口為根目錄的 `index.html`；四個功能使用 `?tool=` 查詢參數直接進入。CSS 與 JavaScript 均使用相對路徑，且專案包含 `.nojekyll`。
 
 ## 檔案結構
 

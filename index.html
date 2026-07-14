@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#06101e">
   <meta name="description" content="適合教室投影與觸控操作的時鐘、碼表與倒數計時器。">
-  <meta name="build-version" content="2026-07-11.1">
+  <meta name="build-version" content="2026-07-14.1">
   <title>Classroom Timer tzk</title>
-  <link rel="stylesheet" href="css/style.css?v=2026-07-11.1">
+  <link rel="stylesheet" href="css/style.css?v=2026-07-14.1">
 </head>
 <body>
   <main class="app-shell">
@@ -22,34 +22,34 @@
         <h1 id="menu-title">Classroom<br><span>Timer tzk</span></h1>
         <p class="menu-subtitle">為課堂節奏而設計的大畫面計時工具</p>
         <nav class="menu-grid" aria-label="計時工具">
-          <button class="menu-card menu-card--clock" type="button" data-navigate="clock">
+          <a class="menu-card menu-card--clock" href="?tool=clock" data-navigate="clock">
             <span class="menu-card__number">01</span>
             <span class="status-label status-label--stable" aria-label="發布狀態 STABLE">STABLE</span>
             <span class="menu-card__icon" aria-hidden="true">◷</span>
             <span class="menu-card__title">即時時鐘</span>
             <span class="menu-card__hint">現在時間與指針鐘</span>
-          </button>
-          <button class="menu-card menu-card--stopwatch" type="button" data-navigate="stopwatch">
+          </a>
+          <a class="menu-card menu-card--stopwatch" href="?tool=stopwatch" data-navigate="stopwatch">
             <span class="menu-card__number">02</span>
             <span class="status-label status-label--stable" aria-label="發布狀態 STABLE">STABLE</span>
             <span class="menu-card__icon" aria-hidden="true">⏱</span>
             <span class="menu-card__title">大型碼表</span>
             <span class="menu-card__hint">單一任務精準計時</span>
-          </button>
-          <button class="menu-card menu-card--multi" type="button" data-navigate="multi-stopwatch">
+          </a>
+          <a class="menu-card menu-card--multi" href="?tool=multi-stopwatch" data-navigate="multi-stopwatch">
             <span class="menu-card__number">03</span>
             <span class="status-label status-label--stable" aria-label="發布狀態 STABLE">STABLE</span>
             <span class="menu-card__icon" aria-hidden="true">▦</span>
             <span class="menu-card__title">20 組碼表</span>
             <span class="menu-card__hint">分組活動獨立計時</span>
-          </button>
-          <button class="menu-card menu-card--countdown" type="button" data-navigate="countdown">
+          </a>
+          <a class="menu-card menu-card--countdown" href="?tool=countdown" data-navigate="countdown">
             <span class="menu-card__number">04</span>
             <span class="status-label status-label--stable" aria-label="發布狀態 STABLE">STABLE</span>
             <span class="menu-card__icon" aria-hidden="true">⌛</span>
             <span class="menu-card__title">倒數計時</span>
             <span class="menu-card__hint">測驗與任務限時</span>
-          </button>
+          </a>
         </nav>
         <p class="menu-footer">SPACE 開始／停止 · R 歸零 · H 首頁 · F 全螢幕</p>
       </div>
@@ -59,7 +59,7 @@
       <h2 id="clock-heading" class="visually-hidden">即時時鐘</h2>
       <div class="tool-toolbar">
         <div class="toolbar-group">
-          <button class="toolbar-button" type="button" data-navigate="menu" aria-label="回到主選單">← 首頁</button>
+          <a class="toolbar-button" href="./" data-navigate="menu" aria-label="回到主選單">← 首頁</a>
           <span class="toolbar-title">即時時鐘</span>
         </div>
         <div class="toolbar-group toolbar-settings">
@@ -124,7 +124,7 @@
       <h2 id="stopwatch-heading" class="visually-hidden">大型碼表</h2>
       <div class="tool-toolbar toolbar--light">
         <div class="toolbar-group">
-          <button class="toolbar-button" type="button" data-navigate="menu">← 首頁</button>
+          <a class="toolbar-button" href="./" data-navigate="menu">← 首頁</a>
           <span class="toolbar-title">大型碼表</span>
         </div>
         <div class="toolbar-group">
@@ -174,7 +174,7 @@
       <h2 id="multi-heading" class="visually-hidden">20 組碼表</h2>
       <div class="tool-toolbar tool-toolbar--multi">
         <div class="toolbar-group">
-          <button class="toolbar-button" type="button" data-navigate="menu">← 首頁</button>
+          <a class="toolbar-button" href="./" data-navigate="menu">← 首頁</a>
           <span class="toolbar-title">20 組碼表</span>
           <span class="multi-hint">點一下各組數字可以停止／繼續計時</span>
         </div>
@@ -201,7 +201,7 @@
       <h2 id="countdown-heading" class="visually-hidden">倒數計時器</h2>
       <div class="tool-toolbar">
         <div class="toolbar-group">
-          <button class="toolbar-button" type="button" data-navigate="menu">← 首頁</button>
+          <a class="toolbar-button" href="./" data-navigate="menu">← 首頁</a>
           <span class="toolbar-title">倒數計時</span>
         </div>
         <div class="toolbar-group">
@@ -296,10 +296,10 @@
 
   <div id="live-message" class="visually-hidden" role="status" aria-live="polite"></div>
 
-  <script src="js/app.js?v=2026-07-11.1" defer></script>
-  <script src="js/clock.js?v=2026-07-11.1" defer></script>
-  <script src="js/stopwatch.js?v=2026-07-11.1" defer></script>
-  <script src="js/multi-stopwatch.js?v=2026-07-11.1" defer></script>
-  <script src="js/countdown.js?v=2026-07-11.1" defer></script>
+  <script src="js/app.js?v=2026-07-14.1" defer></script>
+  <script src="js/clock.js?v=2026-07-14.1" defer></script>
+  <script src="js/stopwatch.js?v=2026-07-14.1" defer></script>
+  <script src="js/multi-stopwatch.js?v=2026-07-14.1" defer></script>
+  <script src="js/countdown.js?v=2026-07-14.1" defer></script>
 </body>
 </html>
